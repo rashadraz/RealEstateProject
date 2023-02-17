@@ -39,6 +39,8 @@ import {
 
 import { CredentialResponse } from "interfaces/google";
 import { parseJwt } from "utils/parse-jwt";
+import allProperties from "pages/all-properties";
+import propertyDetails from "pages/property-details";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -118,29 +120,33 @@ function App() {
 					catchAll={<ErrorComponent />}
 					resources={[
 						{
-							name: "property",
-							list: MuiInferencer,
+							name: "properties",
+							list: allProperties,
+							show:propertyDetails,
+							create:CreateProperty,
+							edit:EditProperty,
 							icon: <VillaOutlined />,
 						},
 						{
-							name: "agent",
-							list: MuiInferencer,
+							name: "agents",
+							list: Agents,
+							show:AgentProfile,
 							icon: <PeopleAltOutlined />,
 						},
 						{
-							name: "review",
-							list: MuiInferencer,
+							name: "reviews",
+							list: Home,
 							icon: <StarOutlineRounded />,
 						},
 						{
-							name: "message",
-							list: MuiInferencer,
+							name: "messages",
+							list: Home,
 							icon: <ChatBubbleOutline />,
 						},
 						{
 							name: "my-Profile",
 							options: { label: "My Profile" },
-							list: MuiInferencer,
+							list: MyProfile,
 							icon: <AccountCircleOutlined />,
 						},
 					]}
