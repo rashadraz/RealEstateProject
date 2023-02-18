@@ -26,10 +26,10 @@ function CustomButton({
 				textTransform: "capitalize",
 				"&hover": {
 					opacity: 0.9,
-					backgroundColor
+					backgroundColor,
 				},
 			}}
-      onClick={handleClick}
+			onClick={handleClick}
 		>
 			{icon}
 			{title}
