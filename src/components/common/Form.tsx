@@ -18,7 +18,6 @@ import { CustomButton } from "components";
 function Form({
 	type,
 	register,
-	onFinish,
 	formLoading,
 	handleSubmit,
 	handleImageChange,
