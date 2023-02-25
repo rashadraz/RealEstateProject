@@ -10,10 +10,12 @@ function CustomButton({
 	fullWidth,
 	icon,
 	handleClick,
+	disabled,
 }: CustomButtonProps) {
 	return (
 		<Button
-		type={type === 'submit' ? 'submit' : 'button'}
+			disabled={disabled}
+			type={type === "submit" ? "submit" : "button"}
 			sx={{
 				flex: fullWidth ? 1 : "unset",
 				padding: "10px 15px",
@@ -27,7 +29,7 @@ function CustomButton({
 				textTransform: "capitalize",
 				"&hover": {
 					opacity: 0.9,
-					backgroundColor,
+					backgroundColor: "#FCFCFC",
 				},
 			}}
 			onClick={handleClick}
