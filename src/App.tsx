@@ -40,7 +40,7 @@ import {
 import { CredentialResponse } from "interfaces/google";
 import { parseJwt } from "utils/parse-jwt";
 import allProperties from "pages/all-properties";
-import propertyDetails from "pages/property-details";
+// import PropertyDetails from "pages/property-details";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -140,7 +140,7 @@ function App() {
 						{
 							name: "properties",
 							list: allProperties,
-							show: propertyDetails,
+							show: PropertyDetails,
 							create: CreateProperty,
 							edit: EditProperty,
 							icon: <VillaOutlined />,

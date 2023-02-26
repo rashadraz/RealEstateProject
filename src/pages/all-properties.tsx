@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
 	Box,
 	Typography,
@@ -29,11 +30,23 @@ const AllProperties = () => {
 
 	const allProperties = data?.data ?? [];
 
-	const currentPrice = sorter.find((item)=> item.field === 'price')?.order;
+	const currentPrice = sorter.find((item) => item.field === "price")?.order;
 
-	const toggleSort = (field:string)=> {
-		setSorter([{field , order: currentPrice === 'asc' ? 'desc' : 'asc'}])
-	}
+	const toggleSort = (field: string) => {
+		setSorter([{ field, order: currentPrice === "asc" ? "desc" : "asc" }]);
+	};
+
+	const currentFilterValues = useMemo(() => {
+		const logicalFilters = filters.flatMap((item) =>
+			"field" in item ? item : []
+		);
+		return {
+			title: logicalFilters.find((item) => item.field === "title")?.value || "",
+			propertyType:
+				logicalFilters.find((item) => item.field === "propertyType")?.value ||
+				"",
+		};
+	}, [filters]);
 	if (isLoading) return <Typography>Loading...</Typography>;
 	if (isError) return <Typography>Error...</Typography>;
 	return (
@@ -60,9 +73,9 @@ const AllProperties = () => {
 							mb={{ xs: "20px", sm: 0 }}
 						>
 							<CustomButton
-								title={`Sort Price ${currentPrice === 'asc' ? '↑' : "↓"}`}
+								title={`Sort Price ${currentPrice === "asc" ? "↑" : "↓"}`}
 								handleClick={() => {
-									toggleSort('price')
+									toggleSort("price");
 								}}
 								backgroundColor="#475be8"
 								color="#fcfcfc"
@@ -71,8 +84,18 @@ const AllProperties = () => {
 								variant="outlined"
 								color="info"
 								placeholder="Search By Title"
-								value=""
-								onChange={() => {}}
+								value={currentFilterValues.title}
+								onChange={(e) => {
+									setFilters([
+										{
+											field: "title",
+											operator: "contains",
+											value: e.currentTarget.value
+												? e.currentTarget.value
+												: undefined,
+										},
+									]);
+								}}
 							/>
 							<Select
 								variant="outlined"
@@ -83,10 +106,35 @@ const AllProperties = () => {
 									"aria-label": "Without label",
 								}}
 								defaultValue=""
-								value=""
-								onChange={() => {}}
+								value={currentFilterValues.propertyType}
+								onChange={(e) => {
+									setFilters(
+										[
+											{
+												field: "propertyType",
+												operator: "eq",
+												value: e.target.value,
+											},
+										],
+										"replace"
+									);
+								}}
 							>
 								<MenuItem value="">All</MenuItem>
+								{[
+									"Apartment",
+									"Villa",
+									"FarmHouse",
+									"Condos",
+									"Townhouse",
+									"Duplex",
+									"Studio",
+									"Chalet",
+								].map((type) => (
+									<MenuItem key={type} value={type.toLowerCase()}>
+										{type}
+									</MenuItem>
+								))}
 							</Select>
 						</Box>
 					</Box>
@@ -155,11 +203,14 @@ const AllProperties = () => {
 							"aria-label": "Without label",
 						}}
 						defaultValue={10}
-						onChange={() => {}}
+						onChange={(e) =>
+							setPageSize(e.target.value ? Number(e.target.value) : 10)
+						}
 					>
-						{[10,20,30,40,50].map((size)=> (
-							<MenuItem key={size} value={size}>Show {size}</MenuItem>
-
+						{[10, 20, 30, 40, 50].map((size) => (
+							<MenuItem key={size} value={size}>
+								Show {size}
+							</MenuItem>
 						))}
 					</Select>
 				</Box>
